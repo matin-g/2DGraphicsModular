@@ -1,2 +1,2 @@
 # 2DGraphicsModular
-Class project
+Class project for team Ratatouille
