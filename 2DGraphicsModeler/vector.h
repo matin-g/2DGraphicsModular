@@ -1,7 +1,7 @@
 #pragma once
 #ifndef VECTOR_H
 #define VECTOR_H
-#include <exception>
+#include <stdexcept>
 template<typename T>
 class vector
 {
