@@ -45,7 +45,7 @@ public:
 
 	}
 	vector(vector&& rhs) // move constructor
-		:size_v {rhs.size_v}, space {rhs.space}
+		:size_v{ rhs.size_v }, space{ rhs.space }
 	{
 		elem = rhs.elem;
 		rhs.elem = nullptr;
@@ -88,15 +88,18 @@ public:
 	void resize(int newsize) // grow
 	{
 
-		T* temp = new T[resize];
+		T* temp = new T[newsize];
 		int i = 0;
-		while (i < size_v)
+
+
+		for (i; i < newsize; i++)
 		{
-			for (i; i < resize; i++)
-			{
+			if (i < size_v)
 				temp[i] = elem[i];
-			}
-		}// this is not like the real STL vector where we can accept another
+		}
+		if (size_v > newsize)
+			size_v = newsize;
+		// this is not like the real STL vector where we can accept another
 		//default argument to initialize data if our old vector is smaller that the resize.
 	}
 	void push_back(T val) // add element
@@ -113,16 +116,18 @@ public:
 	}
 	void reserve(int newalloc) // get more space
 	{
-	
-		T* temp = new T[newalloc];
-		for (int i = 0; i < size_v; i++)
+		if (newalloc > space)
 		{
-			temp[i] = elem[i];
+			T* temp = new T[newalloc];
+			for (int i = 0; i < size_v; i++)
+			{
+				temp[i] = elem[i];
+			}
+			delete[] elem;
+			elem = temp;
+			temp = nullptr;
+			space = newalloc;
 		}
-		delete[] elem;
-		elem = temp;
-		temp = nullptr;
-		space = newalloc;
 	}
 	using iterator = T * ;
 	using const_iterator = const T*;
@@ -136,7 +141,7 @@ public:
 	}
 	iterator end() // points to one beyond the last element
 	{
-		return elem + space;
+		return (elem + space);
 	}
 	const_iterator end() const
 	{
@@ -147,7 +152,7 @@ public:
 		T* temp = nullptr;
 		if (size_v >= space)
 		{
-			temp = new T[size_v*2];
+			temp = new T[size_v * 2];
 			space = size_v * 2;
 		}
 		else
@@ -156,26 +161,29 @@ public:
 		}
 		int i = 0;
 		iterator j;
-		for (j = begin(); j < p; j++)
+		for (j = begin(); j != p; j++)
 		{
 			temp[i] = *j;
 			i++;
 		}
-		iterator returnIt = temp+i;
+		iterator returnIt = temp + i;
 		temp[i] = v;
 		i++;
 
 		for (j; j != end(); j++)
 		{
-			temp[i] = *j;
-			i++;
+			while (i < space)
+			{
+				temp[i] = *j;
+				i++;
+			}
 		}
 
 		size_v++;
 		delete[] elem;
 		elem = temp;
 		temp = nullptr;
-		
+
 		return returnIt;
 	}
 	iterator erase(iterator p) // remove element pointed to by p
@@ -190,8 +198,10 @@ public:
 		++i;
 		for (i; i < size_v; ++i)
 		{
-			temp[i-1] = elem[i];
+			temp[i - 1] = elem[i];
 		}
+		
+		size_v--;
 
 		delete[] elem;
 		elem = temp;
