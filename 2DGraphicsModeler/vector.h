@@ -189,16 +189,20 @@ public:
 	iterator erase(iterator p) // remove element pointed to by p
 	{
 		T* temp = new T[space];
-
 		int i = 0;
-		for (i; i < p; ++i)
+		iterator j;
+		for (j= begin(); j < p; j++)
 		{
-			temp[i] = elem[i];
+			temp[i] = *j;
 		}
-		++i;
+		
+		iterator returnIt = temp + i;
+		i++;
+
 		for (i; i < size_v; ++i)
 		{
-			temp[i - 1] = elem[i];
+			temp[i] = *j;
+			j++;
 		}
 		
 		size_v--;
@@ -206,6 +210,8 @@ public:
 		delete[] elem;
 		elem = temp;
 		temp = nullptr;
+
+		return returnIt;
 	}
 private:
 	int size_v;
