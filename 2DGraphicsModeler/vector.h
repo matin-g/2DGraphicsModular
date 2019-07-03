@@ -6,10 +6,10 @@ template<typename T>
 class vector
 {
 public:
-	vector() :size_v{ 1 }, elem{ new T }, space{ 1 }
+    vector() :size_v{ 0 }, elem{ nullptr }, space{ 0 }
 	{}// end of vector
 
-	explicit vector(int s) : size_v{ s }, space{ s }
+    explicit vector(int s) : size_v{ 0 }, space{ s }
 	{
 		elem = new T[s];
 	}// end of vector(int)
@@ -110,8 +110,16 @@ public:
 		}
 		else
 		{
-			reserve(2 * space);
-			elem[++size_v] = val;
+            if(space != 0)// check for empty vector
+            {
+                reserve(2 * space);
+                elem[++size_v] = val;
+            }
+            else
+            {
+                reserve(1);
+                elem[++size_v] = val;
+            }
 		}
 	}
 	void reserve(int newalloc) // get more space
