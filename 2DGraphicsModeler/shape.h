@@ -8,7 +8,11 @@
 class Shape
 {
 public:
+    enum class ShapeType{noShape, Line, Polyline,Polygon, Rectangle, Ellipse, Text};
+    
+    const QBrush& getBrush() const;
     Shape();
+    
 private:
     int shapeId;
     std::string shapeType;
