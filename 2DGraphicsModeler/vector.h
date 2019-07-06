@@ -2,6 +2,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 #include <stdexcept>
+const int STARTSIZE = 8;
 template<typename T>
 class vector
 {
@@ -42,24 +43,24 @@ public:
 			for (int i = 0; i < size_v; i++)
 				*(elem + i) = *(rhs.elem + i);
 		}
-
+		return  *this;
 	}
-	vector(vector&& rhs) // move constructor
+	vector(vector&& rhs) noexcept // move constructor
 		:size_v{ rhs.size_v }, space{ rhs.space }
 	{
 		elem = rhs.elem;
 		rhs.elem = nullptr;
-		rhs.size = 0;
+		rhs.size_v = 0;
 		rhs.space = 0;
 	}
-	vector& operator=(vector&& rhs) // move assignment
+	vector& operator=(vector&& rhs) noexcept // move assignment
 	{
 		if (this != &rhs)
 		{
 			delete[] elem;
 			elem = rhs.elem;
 			rhs.elem = nullptr;
-			rhs.size = 0;
+			rhs.size_v = 0;
 			rhs.space = 0;
 		}
 		return *this;
@@ -106,19 +107,22 @@ public:
 	{
 		if (size_v < space)
 		{
-			elem[++size_v] = val;
+			elem[size_v] = val;
+			size_v++;
 		}
 		else
 		{
-            if(space != 0)// check for empty vector
+            if(space == 0)// check for empty vector
             {
-                reserve(2 * space);
-                elem[++size_v] = val;
+				reserve(STARTSIZE);
+				elem[size_v] = val;
+				size_v++;
             }
             else
             {
-                reserve(1);
-                elem[++size_v] = val;
+				reserve(space*2);
+				elem[size_v] = val;
+				size_v++;
             }
 		}
 	}
@@ -149,7 +153,7 @@ public:
 	}
 	iterator end() // points to one beyond the last element
 	{
-		return (elem + space);
+		return (elem + size_v);
 	}
 	const_iterator end() const
 	{
