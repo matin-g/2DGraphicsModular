@@ -51,8 +51,8 @@ void test()
 	delete test_vector_int;
 	test_vector_int = nullptr;
 	std::cout << "Delete 2nd test vector\n";
-	delete test_vector_int;
+	delete test_vector_int2;
 	test_vector_int2 = nullptr;
-
+	
 	//system("pause");
 }

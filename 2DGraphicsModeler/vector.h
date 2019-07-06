@@ -19,7 +19,7 @@ public:
 	vector(const vector& rhs) : space{ rhs.space }, size_v{ rhs.size_v }
 	{
 		elem = new T[rhs.space];
-		for (int i = 0; i < rhs.size_v; i++)
+		for (int i = 0; i < size_v; i++)
 		{
 			*(elem + i) = *(rhs.elem + i);
 		}
@@ -91,17 +91,21 @@ public:
 
 		T* temp = new T[newsize];
 		int i = 0;
-
-
 		for (i; i < newsize; i++)
 		{
 			if (i < size_v)
 				temp[i] = elem[i];
 		}
-		if (size_v > newsize)
-			size_v = newsize;
-		// this is not like the real STL vector where we can accept another
-		//default argument to initialize data if our old vector is smaller that the resize.
+		// this is not like the real STL vector 
+		//where we can accept another default argument to initialize
+		//data if our old vector is smaller that the resize, this means
+		// the default constructor will be used.
+		
+		size_v = newsize;
+		space = newsize;
+		delete[] elem;
+		elem = temp;
+		temp = nullptr;
 	}
 	void push_back(T val) // add element
 	{
