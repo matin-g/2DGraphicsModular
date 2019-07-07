@@ -13,10 +13,14 @@ class Shape
 public:
     Shape();
     virtual ~Shape();
+    
+    ShapeType get_shape() const;
     const QBrush& get_brush()const;
+    const QPencil& get_pencil()const; 
 
     void set_shape(ShapeType shape);
     void set_pen(Qt::GlobalColor, int width, Qt::PenStyle, Qt::PenCapStyle, Qt::PenJoinStyle);
+    void set_pencil(Qt::Global Color);
     void set_brush(Qt::GlobalColor, Qt::BrushStyle);
 
     void default_style();
