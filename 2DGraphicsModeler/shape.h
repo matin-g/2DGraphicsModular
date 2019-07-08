@@ -10,6 +10,15 @@ class Shape
 public:
     Shape();
 private:
+<<<<<<< Updated upstream
+=======
+    QPainter& qpainter;
+
+    QPaintDevice* device;
+
+    //shapeDimensions must be inherited
+
+>>>>>>> Stashed changes
     int shapeId;
     std::string shapeType;
     vector<vector<int>> shapeDimensions;
